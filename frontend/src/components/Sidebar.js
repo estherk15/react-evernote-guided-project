@@ -5,11 +5,13 @@ class Sidebar extends Component {
   render() {
     return (
       <div className='master-detail-element sidebar'>
-        <NoteList />
-        <button>New</button>
+        <NoteList notes={this.props.notes} selectNote={this.props.selectNote}/>
+        <button onClick={this.props.postNewNote}>New</button>
       </div>
     );
   }
 }
 
 export default Sidebar;
+
+//button will get an onClick

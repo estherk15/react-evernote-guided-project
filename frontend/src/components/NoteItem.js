@@ -1,10 +1,13 @@
 import React from 'react';
 
-const NoteList = (props) => (
-  <li>
-    <h2>Title</h2>
-    <p>Caption...</p>
-  </li>
-);
+const NoteItem = (props) => {
 
-export default NoteList;
+  return (
+  <li onClick={() => props.selectNote(props.note.id)}>
+    <h2>{props.note.title}</h2>
+    <p>{props.note.body}</p>
+  </li>
+)}
+
+export default NoteItem;
+// length > 50 ? props.note.body.slice(0, 50) + "..." : props.note.body
