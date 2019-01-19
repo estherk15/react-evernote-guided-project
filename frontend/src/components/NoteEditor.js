@@ -16,6 +16,7 @@ class NoteEditor extends Component {
   handleSubmitEdit = (event) => {
     event.preventDefault()
     this.props.submittedNote(this.state.title, this.state.body)
+    //I'm passing up current input in the forms to the submittedNote fn in NoteContainer.
   }
 
   render() {

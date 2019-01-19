@@ -18,12 +18,14 @@ class NoteContainer extends Component {
   selectNote = (id) => {
     this.setState({
       selectedNoteId: id,
-      selectedEdit: false //no matter what if you click on a note, the selectedEdit will be false so that if you click a note while editing a note, it will display the note you clicked on.
+      selectedEdit: false
+      //selectedEdit must always be set to false unless editing, otherwise, it will always show edit form
     })
   }
-  //this function will use the state.selectedNoteId to find the selected note from the state.note. there's no duplication of information, there's a single source
+
   findNote = () => {
     return this.state.notes.find(note => note.id === this.state.selectedNoteId)
+    //this fn returns the note Object that matches the note id of whichever note we click on.
   }
 
   postNewNote = () => {
@@ -45,20 +47,19 @@ class NoteContainer extends Component {
   }//postNewNote()
 
   handleClickEdit = () => {
-    //when I click edit on any note, the selectedEdit will trigger the conditional render of the NoteEditor Component
+    //the selectedEdit will trigger the conditional render of the NoteEditor Component
     this.setState({
       selectedEdit: true
     })
   }
 
-  handleClickCancel = () => {
+  handleClickCancel = () => { //returns to note view
     this.setState({
       selectedEdit: false
     })
   }
 
-  //search filter
-  handleChange = (event) => {
+  handleChange = (event) => {//search filter
     this.setState({
       searchInput: event.target.value
     })
@@ -66,7 +67,7 @@ class NoteContainer extends Component {
 
   filteredNotes = () => {
     return this.state.notes.filter(note => note.title.toLowerCase().includes(this.state.searchInput.toLowerCase()) || note.body.toLowerCase().includes(this.state.searchInput.toLowerCase()))
-    // console.log(filteredNotes);
+    //Oh. my. goodness....
   }
 
 
