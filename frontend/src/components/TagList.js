@@ -1,10 +1,14 @@
 import React from 'react'
+import Tag from './Tag'
 
 const TagList = (props) => {
 
   return(
-    <div>
-      <input type="text" placeholder="Add a tag"/>
+    <div className="tag-container">
+      {props.tags.map(tag => {
+        return <Tag key={"tag"+tag.id} tag={tag} deleteTag={props.deleteTag}/>
+      })}
+      
     </div>
   )
 

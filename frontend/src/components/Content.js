@@ -26,8 +26,10 @@ class Content extends Component {
                 handleClickDelete={this.props.handleClickDelete}/>;
     } else if (this.props.selectedNoteId) {
       return <NoteViewer
+                notes={this.props.notes}
                 findNote={this.props.findNote}
-                handleClickEdit={this.props.handleClickEdit}/>;
+                handleClickEdit={this.props.handleClickEdit}
+                deleteTag={this.props.deleteTag}/>;
     } else {
       return <Instructions />;
     }

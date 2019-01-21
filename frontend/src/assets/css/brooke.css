@@ -70,6 +70,14 @@ p.instructions {
   border: 2px dashed grey;
 }
 
+.tag {
+  display: inline-block;
+  padding-right: 10px;
+  padding-left: 10px;
+  border-radius: 10px;
+  background-color: #BC8F8F;
+}
+
 input {
   font-size: 24px;
   height: 40px;

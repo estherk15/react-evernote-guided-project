@@ -8,6 +8,7 @@ const noteAPI = 'http://localhost:3000/api/v1/notes'
 class NoteContainer extends Component {
   state={
     notes: [],
+    tags: [],
     selectedNoteId: null,
     selectedEdit: false,
     searchInput: ""
@@ -83,6 +84,14 @@ class NoteContainer extends Component {
     //Oh. my. goodness....
   }
 
+  deleteTag = (id) => {
+    //i need to find the tag I've clicked on
+    //and the note that it belongs to
+    //then update the database to delete that tag.
+    //update the state so the most current info is shown.
+    console.log("Deleting")
+  }
+
 
   //When I submit the edit form, the updated fields are also updated to the state.
   submittedNote = (title, body) => { //update the notesList with the newly edited note.
@@ -121,7 +130,6 @@ class NoteContainer extends Component {
   }
 
   render() {
-    // console.log(this.state)
     return (
       <Fragment>
         <Search handleChange={this.handleChange} searchInput={this.state.searchInput}/>
@@ -137,7 +145,8 @@ class NoteContainer extends Component {
             handleClickEdit={this.handleClickEdit}
             handleClickCancel={this.handleClickCancel}
             submittedNote={this.submittedNote}
-            handleClickDelete={this.handleClickDelete}/>
+            handleClickDelete={this.handleClickDelete}
+            deleteTag={this.deleteTag}/>
         </div>
       </Fragment>
     );
