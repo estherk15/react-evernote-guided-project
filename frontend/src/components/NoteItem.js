@@ -5,9 +5,10 @@ const NoteItem = (props) => {
   return (
   <li onClick={() => props.selectNote(props.note.id)}>
     <h2>{props.note.title}</h2>
-    <p>{props.note.body}</p>
+    <p>{props.note.body.length > 50 ? props.note.body.slice(0,50) + "..." : props.note.body}</p>
   </li>
 )}
 
 export default NoteItem;
-// length > 50 ? props.note.body.slice(0, 50) + "..." : props.note.body
+
+//Renders a truncated version of the body

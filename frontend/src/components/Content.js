@@ -10,14 +10,20 @@ import Instructions from './Instructions';
           Then complete the rest of your app before attempting to
           refactor to get this Content component to work.
 */
+
+
 class Content extends Component {
+
+  componentDidMount
+
   renderContent = () => {
     // console.log(this.props)
     if (this.props.selectedEdit) {
       return <NoteEditor
                 findNote={this.props.findNote}
                 submittedNote={this.props.submittedNote}
-                handleClickCancel={this.props.handleClickCancel}/>;
+                handleClickCancel={this.props.handleClickCancel}
+                handleClickDelete={this.props.handleClickDelete}/>;
     } else if (this.props.selectedNoteId) {
       return <NoteViewer
                 findNote={this.props.findNote}

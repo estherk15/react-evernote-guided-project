@@ -65,6 +65,19 @@ class NoteContainer extends Component {
     })
   }
 
+  handleClickDelete = () => {
+    fetch(`http://localhost:3000/api/v1/notes/${this.state.selectedNoteId}`, {method: "DELETE"})
+      .then(r => r.json())
+      .then(result => {
+        const filteredNotes = [...this.state.notes].filter(note => note.id !== this.state.selectedNoteId)
+        this.setState({
+          notes: filteredNotes,
+          selectedNoteId: null,
+          selectedEdit: false
+        })
+      })
+  }
+
   filteredNotes = () => {
     return this.state.notes.filter(note => note.title.toLowerCase().includes(this.state.searchInput.toLowerCase()) || note.body.toLowerCase().includes(this.state.searchInput.toLowerCase()))
     //Oh. my. goodness....
@@ -122,7 +135,8 @@ class NoteContainer extends Component {
             selectedEdit={this.state.selectedEdit}
             handleClickEdit={this.handleClickEdit}
             handleClickCancel={this.handleClickCancel}
-            submittedNote={this.submittedNote}/>
+            submittedNote={this.submittedNote}
+            handleClickDelete={this.handleClickDelete}/>
         </div>
       </Fragment>
     );
