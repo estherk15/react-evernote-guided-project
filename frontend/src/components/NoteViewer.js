@@ -1,14 +1,26 @@
 import React, { Fragment } from 'react';
+import TagList from './TagList'
 
-const NoteViewer = (props) => {
+class NoteViewer extends React.Component{
+  state={
+    tags: []
+  }
 
-  return (
-    <Fragment>
-      <h2>{props.findNote.title}</h2>
-      <p>{props.findNote.body}</p>
-      <button onClick={props.handleClickEdit}>Edit</button>
-    </Fragment>
-  );
+  componentDidMount() {
+    //insert fetch for the tags
+  }
+
+  render() {
+
+    return (
+      <Fragment>
+        <h2>{this.props.findNote.title}</h2>
+        <p>{this.props.findNote.body}</p>
+        <button onClick={this.props.handleClickEdit}>Edit</button>
+        <TagList tags={this.state.tags}/>
+      </Fragment>
+    );
+  }
 }
 
 export default NoteViewer;

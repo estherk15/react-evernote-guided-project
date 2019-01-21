@@ -113,6 +113,7 @@ class NoteContainer extends Component {
     fetch(noteAPI)
       .then(r => r.json())
       .then(notes => {
+        console.log(notes);
         this.setState({
           notes: notes
         })
