@@ -12,3 +12,8 @@ Note.destroy_all
 10.times do
   Note.create(user: u, title: Faker::PrincessBride.character, body: Faker::PrincessBride.quote)
 end
+
+Tag.destroy_all
+15.times do
+  Tag.create(title: Faker::Book.genre)
+end
