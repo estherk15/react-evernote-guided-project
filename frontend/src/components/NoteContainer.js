@@ -29,6 +29,8 @@ class NoteContainer extends Component {
     //this fn returns the note Object that matches the note id of whichever note we click on.
   }
 
+  findTag = (id) => this.state.tags.find(tag => tag.id == id)
+
   postNewNote = () => {
     const defaultNote = {title: 'Title', body: 'Write a new note'}
     fetch(noteAPI, {
@@ -79,17 +81,43 @@ class NoteContainer extends Component {
       })
   }
 
+
+
   filteredNotes = () => {
     return this.state.notes.filter(note => note.title.toLowerCase().includes(this.state.searchInput.toLowerCase()) || note.body.toLowerCase().includes(this.state.searchInput.toLowerCase()))
     //Oh. my. goodness....
   }
 
   deleteTag = (id) => {
-    //i need to find the tag I've clicked on
-    //and the note that it belongs to
-    //then update the database to delete that tag.
-    //update the state so the most current info is shown.
-    console.log("Deleting")
+    const tag = this.findTag(id)
+    const currentNote = this.findNote()
+    const noteCopy = {...currentNote, tags:[...currentNote.tags]}
+    noteCopy.tags.filter(tag => tag.id !== id)
+  }
+
+  addTag = (event) => {
+    // i have to add a tag to an existing note, so i made copies of everything
+    const currentNote = this.findNote()
+    const tagId = event.target.value
+    const tag = this.findTag(tagId)
+    const noteCopy = {...currentNote, tags:[...currentNote.tags, tag]}
+    //I'm replacing the original note with the new note in the array of notes,
+    const noteIndex = this.state.notes.findIndex(note => note === currentNote)
+    const notesCopy = [...this.state.notes]
+    notesCopy[noteIndex] = noteCopy
+
+    this.setState({notes: notesCopy})
+
+    fetch(`http://localhost:3000/api/v1/notes/${currentNote.id}/updateTags`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({tag_id: tagId})
+    })
+
+
   }
 
 
@@ -118,13 +146,20 @@ class NoteContainer extends Component {
       })
   }
 
-  componentDidMount() {
+  componentDidMount() { //is this efficient?
     fetch(noteAPI)
       .then(r => r.json())
       .then(notes => {
-        console.log(notes);
         this.setState({
           notes: notes
+        })
+      })
+
+    fetch("http://localhost:3000/api/v1/tags")
+      .then(r => r.json())
+      .then(tags => {
+        this.setState({
+          tags: tags
         })
       })
   }
@@ -132,7 +167,9 @@ class NoteContainer extends Component {
   render() {
     return (
       <Fragment>
-        <Search handleChange={this.handleChange} searchInput={this.state.searchInput}/>
+        <Search
+          handleChange={this.handleChange}
+          searchInput={this.state.searchInput}/>
         <div className='container'>
           <Sidebar
             notes={this.filteredNotes()}
@@ -146,7 +183,9 @@ class NoteContainer extends Component {
             handleClickCancel={this.handleClickCancel}
             submittedNote={this.submittedNote}
             handleClickDelete={this.handleClickDelete}
-            deleteTag={this.deleteTag}/>
+            allTags={this.state.tags}
+            deleteTag={this.deleteTag}
+            addTag={this.addTag}/>
         </div>
       </Fragment>
     );

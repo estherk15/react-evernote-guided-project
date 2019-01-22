@@ -9,7 +9,11 @@ class NoteViewer extends React.Component{
       <Fragment>
         <h2>{this.props.findNote.title}</h2>
         <p>{this.props.findNote.body}</p>
-        <TagList tags={this.props.findNote.tags} deleteTag={this.props.deleteTag}/>
+        <TagList
+          allTags={this.props.allTags}
+          noteTags={this.props.findNote.tags} 
+          deleteTag={this.props.deleteTag}
+          addTag={this.props.addTag}/>
         <button onClick={this.props.handleClickEdit}>Edit</button>
       </Fragment>
     );

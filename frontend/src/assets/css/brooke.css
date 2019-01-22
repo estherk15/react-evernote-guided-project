@@ -70,12 +70,27 @@ p.instructions {
   border: 2px dashed grey;
 }
 
-.tag {
+.tag-container{
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+}
+
+.tag{
+  width: auto;
   display: inline-block;
   padding-right: 10px;
   padding-left: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
   border-radius: 10px;
-  background-color: #BC8F8F;
+  border-style: solid;
+  border-color: #BC8F8F;
+  border-width: medium;
+  margin-right: 10px;
+}
+
+.tag-delete:hover{
+  cursor: pointer;
 }
 
 input {

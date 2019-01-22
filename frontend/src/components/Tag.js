@@ -5,7 +5,7 @@ const Tag = (props) => {
   return(
     <span className='tag'>
       {props.tag.title}
-      <span onClick={() => props.deleteTag(props.tag.id)}> X </span>
+      <span className="tag-delete" onClick={() => props.deleteTag(props.tag.id)}> X </span>
     </span>
   )
 
