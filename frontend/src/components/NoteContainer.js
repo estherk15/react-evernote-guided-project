@@ -11,7 +11,8 @@ class NoteContainer extends Component {
     tags: [],
     selectedNoteId: null,
     selectedEdit: false,
-    searchInput: ""
+    searchInput: "",
+    sorted: false
     //you never want to set a state to an empty object, always use null
   }
 
@@ -49,6 +50,14 @@ class NoteContainer extends Component {
       })
   }//postNewNote()
 
+  sortNotes = () => {
+    const currentFilteredNotes = this.filteredNotes()
+    const copyNotes = [...this.state.notes]
+    const sortedNotes = copyNotes.sort((a,b) => a.title.toLowerCase() > b.title.toLowerCase() ? 1 : (b.title.toLowerCase() > a.title.toLowerCase() ? -1 : 0))
+    console.log(sortedNotes);
+    // return sortedNotes
+  }
+
   handleClickEdit = () => {
     //the selectedEdit will trigger the conditional render of the NoteEditor Component
     this.setState({
@@ -81,30 +90,30 @@ class NoteContainer extends Component {
       })
   }
 
-
-
-  filteredNotes = () => {
+  filteredNotes = () => { //this becomes the new baseline for display since
     return this.state.notes.filter(note => note.title.toLowerCase().includes(this.state.searchInput.toLowerCase()) || note.body.toLowerCase().includes(this.state.searchInput.toLowerCase()))
     //Oh. my. goodness....
   }
 
   deleteTag = (id) => {
     const tag = this.findTag(id)
-    const currentNote = this.findNote()
+    const currentNote = this.findNote() //find the note we are currently looking at.
     const noteCopy = {...currentNote, tags:[...currentNote.tags]}
-    noteCopy.tags.filter(tag => tag.id !== id)
+    noteCopy.tags.filter(tag => tag.id !== id) //this will only return tags that are not the tag we click delete for?
+
+
   }
 
   addTag = (event) => {
-    // i have to add a tag to an existing note, so i made copies of everything
+    //I have to add a tag to an existing note, I made copies so I wouldn't mutate state.
     const currentNote = this.findNote()
     const tagId = event.target.value
     const tag = this.findTag(tagId)
-    const noteCopy = {...currentNote, tags:[...currentNote.tags, tag]}
+    const noteCopy = {...currentNote, tags:[...currentNote.tags, tag]} //this copies beyond the first level and also adds the new tag to the copy of the tags. This does not mutate the state.
     //I'm replacing the original note with the new note in the array of notes,
     const noteIndex = this.state.notes.findIndex(note => note === currentNote)
     const notesCopy = [...this.state.notes]
-    notesCopy[noteIndex] = noteCopy
+    notesCopy[noteIndex] = noteCopy //Don't be confused by this, I named this poorly. I'm saying within the copied array, at index [noteIndex], I want the value to equal the newly changed noteCopy.
 
     this.setState({notes: notesCopy})
 
@@ -116,10 +125,7 @@ class NoteContainer extends Component {
       },
       body: JSON.stringify({tag_id: tagId})
     })
-
-
   }
-
 
   //When I submit the edit form, the updated fields are also updated to the state.
   submittedNote = (title, body) => { //update the notesList with the newly edited note.
@@ -146,7 +152,7 @@ class NoteContainer extends Component {
       })
   }
 
-  componentDidMount() { //is this efficient?
+  componentDidMount() { //is this efficient? Two fetch requests in one function?
     fetch(noteAPI)
       .then(r => r.json())
       .then(notes => {
@@ -174,7 +180,9 @@ class NoteContainer extends Component {
           <Sidebar
             notes={this.filteredNotes()}
             selectNote={this.selectNote}
-            postNewNote={this.postNewNote}/>
+            postNewNote={this.postNewNote}
+            sortNotes={this.sortNotes}
+            />
           <Content
             findNote={this.findNote()}
             selectedNoteId={this.state.selectedNoteId}
@@ -193,3 +201,9 @@ class NoteContainer extends Component {
 }
 
 export default NoteContainer;
+
+
+//Add a delete feature for tags
+//add React Routes
+//Add a sort feature
+//
