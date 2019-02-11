@@ -117,13 +117,13 @@ class NoteContainer extends Component {
 
     this.setState({notes: notesCopy})
 
-    fetch(`http://localhost:3000/api/v1/notes/${currentNote.id}/updateTags`, {
+    fetch(`http://localhost:3000/api/v1/notes/${currentNote.id}/updateTags`, { //this is a custom route you made in the backend
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         "Accept": "application/json"
       },
-      body: JSON.stringify({tag_id: tagId})
+      body: JSON.stringify({tag_id: tagId}) //tag_id has to match the rails object
     })
   }
 
